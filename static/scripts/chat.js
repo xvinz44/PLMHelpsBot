@@ -1,6 +1,6 @@
 // Collapsible
 var coll = document.getElementsByClassName("collapsible");
-var code = 'asd';
+var code = 'KnahdJkveQo.uTwgJE8vXyTAYUvWZ2KbI2puh31WVYNqTsf3ftdotVQ';
 for (let i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function () {
         this.classList.toggle("active");
@@ -46,7 +46,7 @@ async function convo(){
     const response = await fetch(url, {
         method: 'POST', // or 'PUT'
         headers:{
-            "Authorization": "Bearer abSdoOuJTgA.wPdHAtQZq0WVa0yqOc34Ry-AiRglwIefjrFdMGLFssA",
+            "Authorization": "Bearer KnahdJkveQo.uTwgJE8vXyTAYUvWZ2KbI2puh31WVYNqTsf3ftdotVQ",
             'Content-Type': 'application/json'
         }
     });
@@ -68,7 +68,7 @@ async function flow(url){
         if (resp.watermark != '0'){
             let y = resp.activities[0]
             let chat = ''
-            if (y.from.id == 'ChatBotPLMHelps'){
+            if (y.from.id == 'CardBotPLMHelps'){
             //document.write(y.timestamp,  ': ',y.from.id, ': ',y.text+ '<br>');
                 chat = '<p class="botText"><span>' + y.text + '</span></p>';
             } else {
@@ -104,7 +104,7 @@ async function getResponse() {
         method: "POST",
         body: JSON.stringify(data),
         headers:{
-            "Authorization": "Bearer abSdoOuJTgA.wPdHAtQZq0WVa0yqOc34Ry-AiRglwIefjrFdMGLFssA",
+            "Authorization": "Bearer KnahdJkveQo.uTwgJE8vXyTAYUvWZ2KbI2puh31WVYNqTsf3ftdotVQ",
             'Content-Type': 'application/json'
         }
     });
