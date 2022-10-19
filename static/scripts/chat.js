@@ -1,6 +1,6 @@
 // Collapsible
 var coll = document.getElementsByClassName("collapsible");
-var code = 'KnahdJkveQo.uTwgJE8vXyTAYUvWZ2KbI2puh31WVYNqTsf3ftdotVQ';
+var code = 'qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4';
 for (let i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function () {
         this.classList.toggle("active");
@@ -46,14 +46,14 @@ async function convo(){
     const response = await fetch(url, {
         method: 'POST', // or 'PUT'
         headers:{
-            "Authorization": "Bearer KnahdJkveQo.uTwgJE8vXyTAYUvWZ2KbI2puh31WVYNqTsf3ftdotVQ",
+            "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
             'Content-Type': 'application/json'
         }
     });
 
     const json = await response.json();
     code = json.conversationId;
-
+    console.log(json);
 
     
     firstBotMessage() 
@@ -63,20 +63,29 @@ async function convo(){
 async function flow(url){
     let socket = new WebSocket(url);
     socket.onmessage = await function(event) {
-        let resp = JSON.parse(event.data);
-        console.log(resp)
-        if (resp.watermark != '0'){
-            let y = resp.activities[0]
-            let chat = ''
-            if (y.from.id == 'CardBotPLMHelps'){
-            //document.write(y.timestamp,  ': ',y.from.id, ': ',y.text+ '<br>');
-                chat = '<p class="botText"><span>' + y.text + '</span></p>';
-            } else {
-                chat = '<p class="userText"><span>' + y.text + '</span></p>';
+        try{
+            let resp = JSON.parse(event.data);
+            console.log(resp)
+            if (resp.watermark != '0'){
+                let y = resp.activities[0]
+                let chat = ''
+                if (y.recipient) {
+                    chat = '<p class="userText"><span>' + y.text + '</span></p>';
+                }
+                else {
+                    chat = '<p class="botText"><span>' + y.text + '</span></p>';
+                } 
+                $("#chatbox").append(chat);
+                document.getElementById("chat-bar-bottom").scrollIntoView(true);
             }
-            $("#chatbox").append(chat);
-            document.getElementById("chat-bar-bottom").scrollIntoView(true);
         }
+        catch(err){
+            let resp = event.data;
+            console.log(resp);
+
+        }
+        
+
     };
 }
 
@@ -85,7 +94,7 @@ convo()
 // Gets the first message
 
 //Gets the text text from the input box and processes it
-async function getResponse() {
+async function sendToBot() {
 
     var mes = $("#textInput").val();
     $("#textInput").val("");
@@ -104,7 +113,7 @@ async function getResponse() {
         method: "POST",
         body: JSON.stringify(data),
         headers:{
-            "Authorization": "Bearer KnahdJkveQo.uTwgJE8vXyTAYUvWZ2KbI2puh31WVYNqTsf3ftdotVQ",
+            "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
             'Content-Type': 'application/json'
         }
     });
@@ -114,12 +123,12 @@ async function getResponse() {
 
 function sendButton() {
     
-    getResponse();
+    sendToBot();
 }
 
 // Press enter to send a message
 $("#textInput").keypress(function (e) {
     if (e.which == 13) {
-        getResponse();
+        sendToBot();
     }
 });
