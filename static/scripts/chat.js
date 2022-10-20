@@ -1,6 +1,6 @@
 // Collapsible
 var coll = document.getElementsByClassName("collapsible");
-var code = 'qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4';
+var id = '';
 for (let i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function () {
         this.classList.toggle("active");
@@ -32,8 +32,8 @@ function getTime() {
     return time;
 }
 function firstBotMessage() {
-    let firstMessage = "Hi! How can I help you?"
-    document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>';
+    //let firstMessage = "Hi! How can I help you?"
+    //document.getElementById("botStarterMessage").innerHTML = '<p class="botText"><span>' + firstMessage + '</span></p>';
 
     let time = getTime();
 
@@ -52,40 +52,79 @@ async function convo(){
     });
 
     const json = await response.json();
-    code = json.conversationId;
+    id = json.conversationId;
     console.log(json);
 
-    
     firstBotMessage() 
     flow(json.streamUrl);
+
+}
+function bubbling(){
+    var bubble = document.createElement('div');
+    bubble.type = "div";
+    bubble.setAttribute('class', 'chat-bubble')
+
+    for (var x; x < 3; x++){
+        var dot = document.createElement('div');
+        dot.setAttribute('class', 'dot')
+        bubble.appendChild(inputElement);
+    }
+    
+
 }
 
 async function flow(url){
+    var typing = ' <div class="typing" id = "typing"> <div class="dot"></div> <div class="dot"></div> <div class="dot"></div> </div>';
     let socket = new WebSocket(url);
+    $("#chatbox").append(typing);
+    sendToBot('event', 'startConversation')
     socket.onmessage = await function(event) {
-        try{
-            let resp = JSON.parse(event.data);
-            console.log(resp)
-            if (resp.watermark != '0'){
-                let y = resp.activities[0]
-                let chat = ''
-                if (y.recipient) {
-                    chat = '<p class="userText"><span>' + y.text + '</span></p>';
-                }
-                else {
-                    chat = '<p class="botText"><span>' + y.text + '</span></p>';
-                } 
-                $("#chatbox").append(chat);
-                document.getElementById("chat-bar-bottom").scrollIntoView(true);
-            }
-        }
-        catch(err){
-            let resp = event.data;
-            console.log(resp);
-
-        }
         
+        let resp = JSON.parse(event.data);
+        let y = resp.activities[0]
+        if (y.type == 'message'){
+            var chat = '';
+            var attach = [chat];
+            let from = '';
+            if (y.recipient) {
+                from = "userText";
+                attach[1] = typing;
+                
+            }
+            else {
+                $('#typing').remove();
+                from = "botText";
+                if (y.attachments.length > 0){
+                    console.log(y.attachments)
+                    for (x in y.attachments[0].content.buttons){
+                        var choice = y.attachments[0].content.buttons[x].value;
+                        console.log(choice);
+                        var inputElement = document.createElement('span');
+                        inputElement.type = "span";
+                        inputElement.innerText= choice;
+                        inputElement.addEventListener('click', function(){
+                            sendToBot('message',this.innerText);
+                        });
+    
+                        var p = document.createElement('p');
+                        p.appendChild(inputElement);
+                        p.setAttribute('class', 'cards')
+                        attach.push(p);
+                        //$("#chatbox").append(p);
+                    } 
 
+                }
+                document.getElementById("chat-bar-bottom").scrollIntoView(true);
+            } 
+            attach[0] = '<p class="'+from+'"><span>' + y.text;'</span></p>';
+            
+            attach.forEach(e => {
+                $("#chatbox").append(e);
+            });
+
+            document.getElementById("chat-bar-bottom").scrollIntoView(true);
+
+        }
     };
 }
 
@@ -93,22 +132,18 @@ convo()
 
 // Gets the first message
 
-//Gets the text text from the input box and processes it
-async function sendToBot() {
 
-    var mes = $("#textInput").val();
-    $("#textInput").val("");
-    var id = code;
+//Gets the text text from the input box and processes it
+async function sendToBot(type, message) {
+
     var url = "https://directline.botframework.com/v3/directline/conversations/"+id+"/activities";
     var data = {
-        "locale": "en-EN",
-        "type": "message",
+        "type": type,
         "from": {
             "id": "user1"
         },
-        "text":  mes
+        "text":  message
     }
-    console.log(id, url, mes, data);
     const response = await fetch(url, {
         method: "POST",
         body: JSON.stringify(data),
@@ -116,19 +151,21 @@ async function sendToBot() {
             "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
             'Content-Type': 'application/json'
         }
-    });
-    
+    }); 
 }
 
 
+function send() {
+    var mes = $("#textInput").val();
+    $("#textInput").val("");
+    sendToBot('message',mes);
+}
 function sendButton() {
-    
-    sendToBot();
+    send()
 }
-
 // Press enter to send a message
 $("#textInput").keypress(function (e) {
     if (e.which == 13) {
-        sendToBot();
+        send();
     }
 });

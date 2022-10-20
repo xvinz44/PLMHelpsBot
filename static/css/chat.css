@@ -193,6 +193,33 @@ body, html {
     animation: floatup .5s forwards
 }
 
+.cardbox {
+    color: #5ca6fa;
+}
+
+.cards {
+    color: white;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+}
+
+.cards span {
+
+    line-height: 1.5em;
+    border-style: dashed;
+    display: inline-block;
+    background: #a8cbf4;
+    padding: 8px;
+    border-radius: 8px;
+
+    max-width: 80%;
+    margin-left: 10px;
+    cursor: pointer;
+    animation: floatup .5s forwards
+}
+
+
 @keyframes floatup {
     from {
         transform: translateY(14px);
@@ -222,3 +249,52 @@ body, html {
         border-radius: 0px;
     }
 }
+
+
+.typing {
+    height: 1.5em;
+    background: #e0e0e0;
+    padding: 3%;
+    border-radius: 100px;
+    border-bottom-left-radius: 2px;
+    margin-left: 10px;
+    margin-bottom: 16px;
+    width: 15%;
+    animation: floatup .5s forwards;
+}
+.typing .dot {
+    animation: mercuryTypingAnimation 1.8s infinite ease-in-out;
+    background-color: #bac5c1 ;
+    border-radius: 50%;
+    height: 6px;
+    margin-right: 4px;
+    width: 6px;
+    display: inline-block;
+}
+  .typing .dot:nth-child(1) {
+    animation-delay: 200ms;
+  }
+  .typing .dot:nth-child(2) {
+    animation-delay: 300ms;
+  }
+  .typing .dot:nth-child(3) {
+    animation-delay: 400ms;
+  }
+  .typing .dot:last-child {
+    margin-right: 0;
+  }
+  
+@keyframes mercuryTypingAnimation {
+    0% {
+      transform: translateY(0px);
+      background-color:#8da49c; 
+    }
+    28% {
+      transform: translateY(-7px);
+      background-color:#1e805a; 
+    }
+    44% {
+      transform: translateY(0px);
+      background-color: #5da68a; 
+    }
+  }
