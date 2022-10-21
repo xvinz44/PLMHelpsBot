@@ -79,9 +79,9 @@ async function flow(url){
     $("#chatbox").append(typing);
     sendToBot('event', 'startConversation')
     socket.onmessage = await function(event) {
-        
         let resp = JSON.parse(event.data);
         let y = resp.activities[0]
+        
         if (y.type == 'message'){
             var chat = '';
             var attach = [chat];
@@ -92,13 +92,12 @@ async function flow(url){
                 
             }
             else {
+                
                 $('#typing').remove();
                 from = "botText";
                 if (y.attachments.length > 0){
-                    console.log(y.attachments)
                     for (x in y.attachments[0].content.buttons){
                         var choice = y.attachments[0].content.buttons[x].value;
-                        console.log(choice);
                         var inputElement = document.createElement('span');
                         inputElement.type = "span";
                         inputElement.innerText= choice;
@@ -113,10 +112,17 @@ async function flow(url){
                         //$("#chatbox").append(p);
                     } 
 
+                    if (attach.length == 1){
+                        attach.push('<p class="'+from+'"><span>' + y.attachments[0].content.text+ '<br></span></p>');
+                    }
+                    
                 }
                 document.getElementById("chat-bar-bottom").scrollIntoView(true);
+
+
             } 
-            attach[0] = '<p class="'+from+'"><span>' + y.text;'</span></p>';
+
+            attach[0] = '<p class="'+from+'"><span>' + y.text+ '<br></span></p>';
             
             attach.forEach(e => {
                 $("#chatbox").append(e);
