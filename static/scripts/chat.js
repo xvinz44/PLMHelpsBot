@@ -1,6 +1,24 @@
 // Collapsible
+window.onload = function(){
+    document.getElementById('chat-button').click();
+}
 var coll = document.getElementsByClassName("collapsible");
 var id = '';
+for (let i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+
+        var content = this.nextElementSibling;
+
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+
+    });
+}
+var coll = document.getElementsByClassName("try");
 for (let i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function () {
         this.classList.toggle("active");
@@ -146,8 +164,6 @@ async function flow(url){
  
  
 convo()
-
-
 
 //Gets the text text from the input box and processes it
 async function sendToBot(type, message) {
