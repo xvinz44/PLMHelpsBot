@@ -140,14 +140,12 @@ async function flow(url){
     };
 }
 
-$("#tab").ready(function() {
-    $(this).click();
-});    
+ 
  
 convo()
 window.onload=function(){
     document.getElementById("chat-button").click();
-  };
+};
 
 
 //Gets the text text from the input box and processes it
