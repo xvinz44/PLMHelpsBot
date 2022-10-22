@@ -87,7 +87,7 @@ async function flow(url){
         let y = resp.activities[0]
         
         if (y.type == 'message'){
-            
+            console.log(y)
             var chat = '';
             var attach = [chat];
             let from = '';
@@ -117,8 +117,8 @@ async function flow(url){
                         //$("#chatbox").append(p);
                     } 
 
-                    if (attach.length == 1){
-                        attach.push('<p class="'+from+'"><span>' + y.attachments[0].content.text+ '<br></span></p>');
+                    if (attach.length == 1 && from == 'botText'){
+                        attach[0] = '<p class="'+from+'"><span>' + y.attachments[0].content.text+'<br></span></p>';
                     }
                     
                 }
@@ -126,11 +126,14 @@ async function flow(url){
 
 
             } 
-
-            attach[0] = '<p class="'+from+'"><span>' + y.text+ '<br></span></p>';
+            if (attach[0] == ''){
+                attach[0] = '<p class="'+from+'"><span>' + y.text+ '<br></span></p>';
+            }
             
+
             attach.forEach(e => {
                 $("#chatbox").append(e);
+                console.log(e)
             });
 
             document.getElementById("chat-bar-bottom").scrollIntoView(true);
@@ -143,9 +146,7 @@ async function flow(url){
  
  
 convo()
-window.onload=function(){
-    document.getElementById("chat-button").click();
-};
+
 
 
 //Gets the text text from the input box and processes it
