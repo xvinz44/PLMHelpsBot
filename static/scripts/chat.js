@@ -40,6 +40,8 @@ function firstBotMessage() {
     $("#chat-timestamp").append(time);
     $("#time").append(time);
     document.getElementById("userInput").scrollIntoView(false);
+
+    // Gets the first message
 }
 async function convo(){
     var url = "https://directline.botframework.com/v3/directline/conversations";
@@ -77,22 +79,28 @@ async function flow(url){
     var typing = ' <div class="typing" id = "typing"> <div class="dot"></div> <div class="dot"></div> <div class="dot"></div> </div>';
     let socket = new WebSocket(url);
     $("#chatbox").append(typing);
-    sendToBot('event', 'startConversation')
+    await sendToBot('event', 'startConversation');
+    for (var z = 0; z < 8; z++){
+        sendToBot('message','hi');
+    }
+    
     socket.onmessage = await function(event) {
+
         let resp = JSON.parse(event.data);
         let y = resp.activities[0]
         
         if (y.type == 'message'){
+            
             var chat = '';
             var attach = [chat];
             let from = '';
             if (y.recipient) {
+                $('#typing').remove();
                 from = "userText";
                 attach[1] = typing;
                 
             }
             else {
-                
                 $('#typing').remove();
                 from = "botText";
                 if (y.attachments.length > 0){
@@ -131,14 +139,18 @@ async function flow(url){
             document.getElementById("chat-bar-bottom").scrollIntoView(true);
 
         }
+
     };
 }
-$(document).ready(function(){
-    $("#tab").trigger("click");
-});
-convo()
 
-// Gets the first message
+$("#tab").ready(function() {
+    $(this).click();
+});    
+ 
+convo()
+window.onload=function(){
+    document.getElementById("chat-button").click();
+  };
 
 
 //Gets the text text from the input box and processes it
@@ -165,8 +177,10 @@ async function sendToBot(type, message) {
 
 function send() {
     var mes = $("#textInput").val();
-    $("#textInput").val("");
-    sendToBot('message',mes);
+    if (mes != ''){
+        $("#textInput").val("");
+        sendToBot('message',mes);
+    }
 }
 function sendButton() {
     send()
