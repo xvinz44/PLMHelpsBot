@@ -133,7 +133,9 @@ async function flow(url){
         }
     };
 }
-
+$(document).ready(function(){
+    $("#tab").trigger("click");
+});
 convo()
 
 // Gets the first message
