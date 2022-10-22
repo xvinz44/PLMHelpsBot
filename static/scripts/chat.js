@@ -79,10 +79,7 @@ async function flow(url){
     var typing = ' <div class="typing" id = "typing"> <div class="dot"></div> <div class="dot"></div> <div class="dot"></div> </div>';
     let socket = new WebSocket(url);
     $("#chatbox").append(typing);
-    await sendToBot('event', 'startConversation');
-    for (var z = 0; z < 8; z++){
-        sendToBot('message','hi');
-    }
+    sendToBot('event', 'startConversation');
     
     socket.onmessage = await function(event) {
 
