@@ -151,8 +151,8 @@ async function flow(url){
                 attach[0] = '<p class="'+from+'"><span>' + y.text+ '<br></span></p>';
             }
             if (from == "botText" && y.text == 'Hello and Welcome'){
-                var hey = "How may I help you?<br>I can answer questions relating to:";
-                attach[1] = '<p class="'+from+'"><span>' + hey+ '<br></span></p>';
+                var hey = "Hello, how may I help you? I can answer any questions relating to:";
+                attach[0] = '<p class="'+from+'"><span>' + hey+ '<br></span></p>';
                 
                 var options = [
                     "Freshmen application admission and Enrollment",
