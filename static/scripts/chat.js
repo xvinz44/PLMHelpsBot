@@ -1,7 +1,5 @@
 // Collapsible
-window.onload = function(){
-    document.getElementById('chat-button').click();
-}
+
 var coll = document.getElementsByClassName("collapsible");
 var id = '';
 for (let i = 0; i < coll.length; i++) {
@@ -71,6 +69,7 @@ async function convo(){
         }
     });
 
+
     const json = await response.json();
     id = json.conversationId;
     console.log(json);
@@ -94,7 +93,9 @@ function bubbling(){
 }
 
 async function flow(url){
+
     var typing = ' <div class="typing" id = "typing"> <div class="dot"></div> <div class="dot"></div> <div class="dot"></div> </div>';
+    
     let socket = new WebSocket(url);
     $("#chatbox").append(typing);
     sendToBot('event', 'startConversation');
@@ -137,17 +138,44 @@ async function flow(url){
 
                     if (attach.length == 1 && from == 'botText'){
                         attach[0] = '<p class="'+from+'"><span>' + y.attachments[0].content.text+'<br></span></p>';
+                        
                     }
                     
                 }
                 document.getElementById("chat-bar-bottom").scrollIntoView(true);
 
 
+            
             } 
             if (attach[0] == ''){
                 attach[0] = '<p class="'+from+'"><span>' + y.text+ '<br></span></p>';
             }
-            
+            if (from == "botText" && y.text == 'Hello and Welcome'){
+                var hey = "How may I help you?<br>I can answer questions relating to:";
+                attach[1] = '<p class="'+from+'"><span>' + hey+ '<br></span></p>';
+                
+                var options = [
+                    "Freshmen application admission and Enrollment",
+                    "Courses offered",
+                    "General information regarding PLM"
+                ]
+                options.forEach(option => {
+                    var inputElement = document.createElement('span');
+                    inputElement.type = "span";
+                    inputElement.innerText= option;
+                    inputElement.addEventListener('click', function(){
+                        sendToBot('message',this.innerText);
+                    });
+    
+                    var p = document.createElement('p');
+                    p.appendChild(inputElement);
+                    p.setAttribute('class', 'cards')
+                    attach.push(p);
+                });
+                attach.push('<p class="'+from+'"><span>Or you can ask any question and I will try my best to provide an answer.<br></span></p>')
+                
+
+            }
 
             attach.forEach(e => {
                 $("#chatbox").append(e);
@@ -161,9 +189,16 @@ async function flow(url){
     };
 }
 
+async function star(){
+    await convo()
+
+}
+
+document.getElementById('chat-button').click();
+
+star()
  
- 
-convo()
+
 
 //Gets the text text from the input box and processes it
 async function sendToBot(type, message) {
