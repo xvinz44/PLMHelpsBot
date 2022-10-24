@@ -12,7 +12,7 @@
     src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
 }
 body, html {
-
+  margin: 0 auto;
 
   font-family: Red hat Display, sans-serif;
   font-weight: 400;
@@ -36,6 +36,8 @@ body, html {
     padding: 15rem 10rem;
 }
 .dis{
+    
+
     color: white;
     font-family: 'open sans',arial,sans-serif;
     font-weight: 100;
@@ -106,6 +108,7 @@ a:link {
 
 
 .banner::after {
+    animation: fadeIn 5s; 
     content: "";
     position: fixed;
     top: 0;
@@ -429,4 +432,20 @@ a:link {
       transform: translateY(0px);
       background-color: #5da68a; 
     }
-  }
+}
+
+
+
+
+
+
+
+
+.loader{
+    background: white url(loader.gif) no-repeat center center;
+    background-size: 20%;
+    height: 100vh;
+    width: 100%;
+    z-index: 100;
+    position: absolute;
+}

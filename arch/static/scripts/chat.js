@@ -1,36 +1,5 @@
 // Collapsible
 
-var coll = document.getElementsByClassName("collapsible");
-var id = '';
-for (let i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-
-        var content = this.nextElementSibling;
-
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-        }
-
-    });
-}
-var coll = document.getElementsByClassName("try");
-for (let i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-
-        var content = this.nextElementSibling;
-
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-        }
-
-    });
-}
 function getTime() {
     let today = new Date();
     hours = today.getHours();
@@ -189,15 +158,12 @@ async function flow(url){
     };
 }
 
-async function star(){
-    await convo()
 
-}
 
-document.getElementById('chat-button').click();
 
-star()
- 
+
+
+
 
 
 //Gets the text text from the input box and processes it
@@ -238,3 +204,51 @@ $("#textInput").keypress(function (e) {
         send();
     }
 });
+
+
+
+
+
+
+
+var coll = document.getElementsByClassName("collapsible");
+var id = '';
+for (let i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+
+        var content = this.nextElementSibling;
+
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+
+    });
+}
+var coll = document.getElementsByClassName("try");
+for (let i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+
+        var content = this.nextElementSibling;
+
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+
+    });
+}
+
+
+var plm = '<embed src="https://www.plm.edu.ph" style="width: 100%; height: 100vw;">';
+$("body").append(plm);
+window.onload = function() {
+    document.getElementById('chat-button').click();
+    convo();
+};
+
+ 
