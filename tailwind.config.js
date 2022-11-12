@@ -1,4 +1,22 @@
 module.exports = {
+  theme: {
+		extend: {
+			fontFamily: {
+        body: ['Open Sans', 'sans-serif'],
+      },
+      animation: {
+        fade: 'fadeOut 6s ease-in-out',
+      },
+
+      // that is actual animation
+      keyframes: theme => ({
+        fadeOut: {
+          '0%': { backgroundColor: theme('colors.red.300') },
+          '100%': { backgroundColor: theme('colors.transparent') },
+        },
+      }),
+		}
+	},
   daisyui: {
     themes: [
       {
