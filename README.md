@@ -4,7 +4,7 @@ Install dependencies
 
 Run to network and locally
 
-'npm run dev --host'
+'npm run dev -- --host'
 
 Run locally only
 
