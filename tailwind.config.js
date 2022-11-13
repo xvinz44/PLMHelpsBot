@@ -7,14 +7,8 @@ module.exports = {
       animation: {
         fade: 'fadeOut 6s ease-in-out',
       },
-
+      
       // that is actual animation
-      keyframes: theme => ({
-        fadeOut: {
-          '0%': { backgroundColor: theme('colors.red.300') },
-          '100%': { backgroundColor: theme('colors.transparent') },
-        },
-      }),
 		}
 	},
   daisyui: {
@@ -42,7 +36,7 @@ module.exports = {
         },
       },
       
-      "light", "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter",]
+      "dark", "cupcake", "bumblebee", "emerald", "corporate", "synthwave", "retro", "cyberpunk", "valentine", "halloween", "garden", "forest", "aqua", "lofi", "pastel", "fantasy", "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", "business", "acid", "lemonade", "night", "coffee", "winter",]
     },
   content: ['./src/**/*.{svelte,js,ts}'],
   plugins: [require("@tailwindcss/typography"), require('daisyui')],
