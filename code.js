@@ -51,7 +51,7 @@ async function convo(){
     const response = await fetch(url, {
         method: 'POST', // or 'PUT'
         headers:{
-            "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
+            "Authorization": "Bearer ",
             'Content-Type': 'application/json'
         }
     });
@@ -199,7 +199,7 @@ async function sendToBot(type, message) {
         method: "POST",
         body: JSON.stringify(data),
         headers:{
-            "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
+            "Authorization": "Bearer ",
             'Content-Type': 'application/json'
         }
     }); 
