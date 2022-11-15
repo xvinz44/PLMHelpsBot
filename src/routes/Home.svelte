@@ -28,7 +28,9 @@
                 <h1 class="text-7xl md:text-9xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary">
                     PLMHelps
                 </h1>
-                <p class="py-3">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                <p class="py-3">
+                    An Intellgient undergraduate admission chatbot developed using Svelte and Azure Bot Framework.
+                </p>
 
 
 

@@ -1,7 +1,9 @@
 
 <script>
 
-    import Bot from './AzureBot.svelte'
+    import Bot from './AzureBot.svelte'     //Live
+
+    // import Bot from './Bot.svelte'     //FREE API
 
     let time = new Date();
     let hours = time.getHours();

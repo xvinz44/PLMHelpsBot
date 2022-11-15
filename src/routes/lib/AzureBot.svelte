@@ -15,6 +15,9 @@
 	import Type from './Typing.svelte'
 	import { onMount, beforeUpdate, afterUpdate } from "svelte";
 
+
+
+
 	$: hours = time.getHours();
 	$: minutes = time.getMinutes();
     let time = new Date();
@@ -85,6 +88,7 @@
     async function getReply() {
 		//received api here
         if (water){
+            
             var url = "https://directline.botframework.com/v3/directline/conversations/"+id+"/activities?watermark=?"+water;
             const res = await fetch(url, {
                 method: 'GET', // or 'PUT'
@@ -94,21 +98,28 @@
                 }
             });
             const text = await res.json();
+            new Promise(resolve => setTimeout(resolve, 500)); 
             if (res.ok) {
                 console.log(text)
                 //console.log(text.activities[0].text);
                 var ans = text.activities[0];
-                chats = [...chats, [ans.text, 1]]
+                await new Promise(resolve => setTimeout(resolve, 1000)); 
+                var temp = [ans.text, 1]
 
                 if (ans.attachments.length > 0){
                     if (ans.attachments[0].content.buttons){
                         console.log(ans.attachments[0].content.buttons, 3)
-                        chats = [...chats, [ans.attachments[0].content.buttons, 3]]
+                        temp = [ans.attachments[0].content.buttons, 3]
                     }   
                     else{
-                        chats = [...chats, [ans.attachments[0].content.text, 1]]
+                       temp = [ans.attachments[0].content.text, 1]
                     }
                 }
+                
+                chats = [...chats, temp]
+                
+                console.log(ans.text)
+                
                 return ans.text;
             } else {
                 throw new Error(text);
