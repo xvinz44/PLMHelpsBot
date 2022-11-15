@@ -3,7 +3,7 @@
 
 
 <script>
-
+	let secret = 'qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4';
 	import Type from './Typing.svelte'
 	
 
@@ -28,7 +28,7 @@
 
 
 	let div, autoscroll, browse = false;
-	let secret = 'qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4';
+
 	let chats = [];
 	let mes;
 
@@ -66,7 +66,7 @@
 
 
 <div bind:this={div} class = "px-4 overflow-auto w-full h-96 flex flex-col space-y-4">
-			   
+		
 	<div class = 'h-full'>
 		<!-- buffer so it starts at the bottom -->
 	</div>

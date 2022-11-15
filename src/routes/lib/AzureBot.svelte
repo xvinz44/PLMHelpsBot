@@ -1,11 +1,19 @@
 
-
-
-
 <script>
+    let inc = [
+        {
+            "value": "How to apply?"
+        },
+        {
+            "value": "Is the admissions still open?"
+        },
+        {
+            "value": "How to enroll?"
+        }
+    ];
 	let secret = 'qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4';
 	import Type from './Typing.svelte'
-	
+	import { onMount, beforeUpdate, afterUpdate } from "svelte";
 
 	$: hours = time.getHours();
 	$: minutes = time.getMinutes();
@@ -14,7 +22,10 @@
 	let minutes = time.getMinutes();
     let curr = String(hours+':').concat(String(minutes).length > 1 ? minutes:'0'+String(minutes));
 
-	import { onMount, beforeUpdate, afterUpdate } from "svelte";
+	let div, autoscroll, id, browse = false;
+
+
+	
 	beforeUpdate(() => {
 		autoscroll = div && div.offsetHeight + div.scrollTop > div.scrollHeight - 20;
 	});
@@ -23,15 +34,15 @@
 			browse = false
 			div.scrollTo(0, div.scrollHeight)
 		} 
-		
 	});
+    
 
+	let chats = [['Hi! How can I help you?', 1],[inc,3]];
 
-	let div, autoscroll, id, browse = false;
+	let mes;
+    
+    let water;
 
-	let chats = [];
-	let mes = 'hey';
-    let waiting = false;
 
     async function start(){
         var url = "https://directline.botframework.com/v3/directline/conversations";
@@ -44,15 +55,12 @@
         });
         const json = await response.json();
         id = json.conversationId;
-        console.log(id)
-        send(true)
     }
-    let water;
-	async function send(first){
-        if (!first){
-            chats = [...chats, [mes, 0]];
+    
+    async function send(){
+        if (chats){
+            chats = [...chats, [mes, 0]]
         }
-		
         var url = "https://directline.botframework.com/v3/directline/conversations/"+id+"/activities";
         var data = {
             "type": 'message',
@@ -71,50 +79,64 @@
         }); 
         const json = await response.json();
         water = String(json.id).slice(26)
-        console.log(water)
-        waiting = true;
-	}
-	async function getReply() {
+        promise = getReply();
+        water = '';
+    }
+    async function getReply() {
 		//received api here
-        var url = "https://directline.botframework.com/v3/directline/conversations/"+id+"/activities?watermark=?"+water;
-        const res = await fetch(url, {
-            method: 'GET', // or 'PUT'
-            headers:{
-                "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
-                'Content-Type': 'application/json'
-            }
-        });
-		const text = await res.json();
-        if (first) return;
-		if (res.ok) {
-            console.log(text)
-            //console.log(text.activities[0].text);
-            var ans = text.activities[0].text
-			chats = [...chats, [ans, 1]]
-            waiting = false
-			return ans;
-		} else {
-			throw new Error(text);
-		}
-	}
+        if (water){
+            var url = "https://directline.botframework.com/v3/directline/conversations/"+id+"/activities?watermark=?"+water;
+            const res = await fetch(url, {
+                method: 'GET', // or 'PUT'
+                headers:{
+                    "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
+                    'Content-Type': 'application/json'
+                }
+            });
+            const text = await res.json();
+            if (res.ok) {
+                console.log(text)
+                //console.log(text.activities[0].text);
+                var ans = text.activities[0];
+                chats = [...chats, [ans.text, 1]]
 
-	start()
-    let promise;
+                if (ans.attachments.length > 0){
+                    if (ans.attachments[0].content.buttons){
+                        console.log(ans.attachments[0].content.buttons, 3)
+                        chats = [...chats, [ans.attachments[0].content.buttons, 3]]
+                    }   
+                    else{
+                        chats = [...chats, [ans.attachments[0].content.text, 1]]
+                    }
+                }
+                return ans.text;
+            } else {
+                throw new Error(text);
+            }
+        }
+
+	}
 
 	async function handleClick() {
 		if (mes){
-            if (send()){
-                promise = getReply();
-            }
-			
+            send()
+            mes = '';
+            browse = true;
 		}
-		mes = '';
 	}
 	const onKeyPress = e => {
 		if (e.charCode === 13) handleClick();
 	};
-    
+
+    async function cd(val){
+        mes = val;
+        handleClick();
+        return true
+    }
+    start();
+    let promise = getReply();
 </script>
+
 
 
 <div bind:this={div} class = "px-4 overflow-auto w-full h-96 flex flex-col space-y-4">
@@ -129,24 +151,29 @@
 	</div>
 	 <!-- Chats Here -->
 	{#each chats as chat}
-		<div class="inline-block py-2 px-3 rounded-xl min-w-fit max-w-fit {chat[1] === 0 ? 'self-end bg-primary text-primary-content':'self-start bg-secondary text-secondary-content'}">
-			{chat[0]}
-		</div>
+
+        {#if chat[1] == 3}
+            {#each chat[0] as card}
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <button on:click={() => cd(card.value)}  class="btn btn-outline btn-primary min-w-fit max-w-fit self-center text-sm" >{card.value}</button>
+            {/each}
+        {:else}
+            <div class="inline-block py-2 px-3 rounded-xl max-w-fit min-w-fit  {chat[1] === 0 ? 'self-end bg-primary text-primary-content':'self-start bg-secondary text-secondary-content'}">
+                {chat[0]}
+            </div>
+        {/if}
 	{/each}
 
-    {#if waiting}
-        {#await promise}
-            <div class="inline-block py-2 px-3 rounded-xl min-w-fit max-w-fit text-primary-content self-start bg-secondary text-secondary-content'}">
-                <Type />
-            </div>
-        {:catch error}
-            <!-- <p style="color: red">{error.message}</p> -->
-        {/await}
-    {/if}
-	 
+ 
+    {#await promise}
+        <div class="inline-block py-2 px-3 rounded-xl min-w-fit max-w-fit text-primary-content self-start bg-secondary text-secondary-content'}">
+            <Type />
+        </div>
+    {:catch error}
+        <!-- <p style="color: red">{error.message}</p> -->
+    {/await}
 
 	 
-
 
 </div>
 <div class = "pt-4 px-4 h-max w-full bottom-0 flex">
@@ -163,10 +190,3 @@
 	</div>
 	  
 </div>
-
-
-
-
-
-
-

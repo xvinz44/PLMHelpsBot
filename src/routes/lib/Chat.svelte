@@ -1,9 +1,8 @@
 
 <script>
 
-    import Bot from './Bot.svelte'
-	$: hours = time.getHours();
-	$: minutes = time.getMinutes();
+    import Bot from './AzureBot.svelte'
+
     let time = new Date();
     let hours = time.getHours();
 	let minutes = time.getMinutes();
@@ -16,7 +15,7 @@
 <div class="tabs z-50">
     <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
     
-    <div class="collapse w-screen  md:w-[20rem] md:rounded-t-2xl">
+    <div class="collapse w-screen  md:w-[22rem] md:rounded-t-2xl">
 
         <input type="checkbox" class="peer" /> 
         
