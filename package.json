@@ -19,6 +19,9 @@
     "vite": "^2.8.6"
   },
   "dependencies": {
-    "svelte-spa-router": "^3.3.0"
+    "botframework-directlinejs": "^0.15.1",
+    "svelte-spa-router": "^3.3.0",
+    "ws": "^8.11.0",
+    "xhr2": "^0.2.1"
   }
 }
