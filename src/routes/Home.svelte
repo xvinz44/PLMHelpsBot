@@ -15,6 +15,7 @@
 
 <!-- svelte-ignore a11y-missing-attribute -->
 <MediaQuery query="(max-width: 480px)" let:matches>
+    <!-- <embed src="https://www.plm.edu.ph" class="w-full h-full" id="plm"> -->
     <div data-theme="{theme}" class ="bg-transparent h-full md:h-screen w-full">
         <div class = "fixed bottom-0 md:right-20 ">
             <Chat />
@@ -58,9 +59,9 @@
         <!-- <div class="peer z-3 h-screen md:h-100vh w-full fixed "></div> -->
 
 
-        <!-- <div class = "{lo === true ? 'visible': 'invisible'} z-0 w-0 xl:w-screen">
+        <div class = " z-0 w-0 xl:w-screen">
             <embed src="https://www.plm.edu.ph" class="plm" id="plm" style="width:100%; height: 100vw;">
-        </div> -->
+        </div>
     </div>
 </MediaQuery>
 
