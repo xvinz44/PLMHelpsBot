@@ -1,5 +1,6 @@
 
 <script>
+    let test = false;
     let inc = [
         {
             "value": "How to apply?"
@@ -12,6 +13,9 @@
         }
     ];
 	let secret = 'qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4';
+    if (test){
+        secret = 'asd';
+    }
 	import Type from './Typing.svelte'
 	import { onMount, beforeUpdate, afterUpdate } from "svelte";
 
@@ -52,7 +56,7 @@
         const response = await fetch(url, {
             method: 'POST', // or 'PUT'
             headers:{
-                "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
+                "Authorization": "Bearer "+secret,
                 'Content-Type': 'application/json'
             }
         });
@@ -76,7 +80,7 @@
             method: "POST",
             body: JSON.stringify(data),
             headers:{
-                "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
+                "Authorization": "Bearer "+secret,
                 'Content-Type': 'application/json'
             }
         }); 
@@ -93,7 +97,7 @@
             const res = await fetch(url, {
                 method: 'GET', // or 'PUT'
                 headers:{
-                    "Authorization": "Bearer qLs-kHwJo70.eyb_Mi-Wi4lh9q09oEt2hnb92jLMgnKSJZJHq55WVg4",
+                    "Authorization": "Bearer "+secret,
                     'Content-Type': 'application/json'
                 }
             });

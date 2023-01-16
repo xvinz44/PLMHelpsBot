@@ -54,14 +54,11 @@
         </div>
 
 
-
-
-        <!-- <div class="peer z-3 h-screen md:h-100vh w-full fixed "></div> -->
-
-
-        <div class = " z-0 w-0 xl:w-screen">
-            <embed src="https://www.plm.edu.ph" class="plm" id="plm" style="width:100%; height: 100vw;">
-        </div>
+        {#if !matches}
+            <div class = "z-0 xl:w-screen">
+                <embed src="https://www.plm.edu.ph" class="plm" id="plm" style="width:100%; height: 100vw;">
+            </div>
+        {/if}
     </div>
 </MediaQuery>
 
